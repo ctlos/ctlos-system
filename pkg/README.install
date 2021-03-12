@@ -1,0 +1,49 @@
+post_install() {
+  cp -rf /etc/ctlos-system/bin/. /usr/local/bin
+  cp -rf /etc/ctlos-system/etc/. /etc
+  cp -rf /etc/ctlos-system/root/. /root
+  rm -rf /etc/ctlos-system
+
+  systemctl mask systemd-rfkill@.service
+  systemctl mask systemd-rfkill.socket
+  systemctl enable haveged.service
+  systemctl enable pacman-init.service
+  systemctl enable choose-mirror.service
+  systemctl enable vbox-check.service
+  # systemctl enable avahi-daemon.service
+  # systemctl enable systemd-networkd.service
+  # systemctl enable systemd-resolved.service
+  # systemctl enable systemd-timesyncd.service
+  systemctl enable ModemManager.service
+  systemctl -f enable NetworkManager.service
+  # systemctl enable iwd.service
+  systemctl enable reflector.service
+  systemctl enable sshd.service
+  systemctl enable sddm.service
+  systemctl set-default graphical.target
+}
+
+post_upgrade() {
+  echo "Enable services..."
+  systemctl is-active haveged.service >/dev/null || systemctl enable haveged.service
+  systemctl is-active pacman-init.service >/dev/null || systemctl enable pacman-init.service
+  systemctl is-active choose-mirror.service >/dev/null || systemctl enable choose-mirror.service
+  systemctl is-active vbox-check.service >/dev/null || systemctl enable vbox-check.service
+  systemctl is-active ModemManager.service >/dev/null || systemctl enable ModemManager.service
+  systemctl is-active NetworkManager.service >/dev/null || systemctl -f enable NetworkManager.service
+  systemctl is-active reflector.service >/dev/null || systemctl enable reflector.service
+  systemctl is-active sddm.service >/dev/null || systemctl enable sddm.service
+  systemctl is-active graphical.target >/dev/null || systemctl set-default graphical.target
+
+  echo "Updating font cache..."
+  mkfontscale /usr/share/fonts/TTF /usr/share/fonts/OTF /usr/share/fonts/misc > /dev/null 2>&1
+  mkfontdir /usr/share/fonts/TTF /usr/share/fonts/OTF /usr/share/fonts/misc > /dev/null 2>&1
+  fc-cache -s >/dev/null
+
+  echo "postinstall operations..."
+  glib-compile-schemas usr/share/glib-2.0/schemas
+  gtk-update-icon-cache -ftq usr/share/icons/hicolor
+  /bin/sh -c 'dconf update'
+
+  echo "Done!"
+}
