@@ -3,7 +3,7 @@
 pkgname=ctlos-system
 pkgdesc='System Settings ctlos'
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://github.com/ctlos/ctlos-system"
 license=('GPL')
@@ -16,7 +16,7 @@ install=README.install
 
 package() {
   cd ${srcdir}/${pkgname}
-  install -d $pkgdir/etc
+  install -d $pkgdir/etc/ctlos-system
   install -d $pkgdir/usr/local/bin
   install -d $pkgdir/root
 
