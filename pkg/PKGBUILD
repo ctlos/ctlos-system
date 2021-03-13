@@ -2,8 +2,8 @@
 
 pkgname=ctlos-system
 pkgdesc='System Settings ctlos'
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.1.0
+pkgrel=1
 arch=('any')
 url="https://github.com/ctlos/ctlos-system"
 license=('GPL')

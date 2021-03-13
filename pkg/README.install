@@ -1,39 +1,74 @@
+_conf() {
+  echo "LC_COLLATE=C" >> /etc/locale.conf
+  echo "KEYMAP=ru" > /etc/vconsole.conf
+  echo "FONT=cyr-sun16" >> /etc/vconsole.conf
+}
+
+_default() {
+  export _BROWSER=firefox
+  echo "BROWSER=/usr/bin/${_BROWSER}" >> /etc/environment
+  echo "BROWSER=/usr/bin/${_BROWSER}" >> /etc/profile
+  export _EDITOR=nano
+  echo "EDITOR=${_EDITOR}" >> /etc/environment
+  echo "EDITOR=${_EDITOR}" >> /etc/profile
+  echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment
+}
+
+_font() {
+  rm -rf /etc/fonts/conf.d/10-scale-bitmap-fonts.conf
+}
+
+_nm() {
+  echo "" > /etc/NetworkManager/NetworkManager.conf
+  echo "[device]" >> /etc/NetworkManager/NetworkManager.conf
+  echo "wifi.scan-rand-mac-address=no" >> /etc/NetworkManager/NetworkManager.conf
+  echo "" >> /etc/NetworkManager/NetworkManager.conf
+  echo "[main]" >> /etc/NetworkManager/NetworkManager.conf
+  echo "dhcp=dhclient" >> /etc/NetworkManager/NetworkManager.conf
+  echo "dns=systemd-resolved" >> /etc/NetworkManager/NetworkManager.conf
+}
+
 post_install() {
   cp -rf /etc/ctlos-system/bin/. /usr/local/bin
   cp -rf /etc/ctlos-system/etc/. /etc
   cp -rf /etc/ctlos-system/root/. /root
   rm -rf /etc/ctlos-system
 
+  _conf
+  _default
+  _font
+  _nm
+
   systemctl mask systemd-rfkill@.service
   systemctl mask systemd-rfkill.socket
-  systemctl enable haveged.service
-  systemctl enable pacman-init.service
-  systemctl enable choose-mirror.service
-  systemctl enable vbox-check.service
+  systemctl list-unit-files | grep haveged.service >/dev/null && systemctl enable haveged.service
+  systemctl list-unit-files | grep pacman-init.service >/dev/null && systemctl enable pacman-init.service
+  systemctl list-unit-files | grep choose-mirror.service >/dev/null && systemctl enable choose-mirror.service
+  systemctl list-unit-files | grep vbox-check.service >/dev/null && systemctl enable vbox-check.service
   # systemctl enable avahi-daemon.service
   # systemctl enable systemd-networkd.service
   # systemctl enable systemd-resolved.service
   # systemctl enable systemd-timesyncd.service
-  systemctl enable ModemManager.service
-  systemctl -f enable NetworkManager.service
+  systemctl list-unit-files | grep ModemManager.service >/dev/null && systemctl enable ModemManager.service
+  systemctl list-unit-files | grep NetworkManager.service >/dev/null && systemctl -f enable NetworkManager.service
   # systemctl enable iwd.service
-  systemctl enable reflector.service
-  systemctl enable sshd.service
-  systemctl enable sddm.service
-  systemctl set-default graphical.target
+  systemctl list-unit-files | grep reflector.service >/dev/null && systemctl enable reflector.service
+  # systemctl enable sshd.service
+  systemctl list-unit-files | grep sddm.service >/dev/null && systemctl enable sddm.service
+  systemctl list-unit-files | grep graphical.target >/dev/null && systemctl set-default graphical.target
 }
 
 post_upgrade() {
   echo "Enable services..."
-  systemctl is-active haveged.service >/dev/null || systemctl enable haveged.service
-  systemctl is-active pacman-init.service >/dev/null || systemctl enable pacman-init.service
-  systemctl is-active choose-mirror.service >/dev/null || systemctl enable choose-mirror.service
-  systemctl is-active vbox-check.service >/dev/null || systemctl enable vbox-check.service
-  systemctl is-active ModemManager.service >/dev/null || systemctl enable ModemManager.service
-  systemctl is-active NetworkManager.service >/dev/null || systemctl -f enable NetworkManager.service
-  systemctl is-active reflector.service >/dev/null || systemctl enable reflector.service
-  systemctl is-active sddm.service >/dev/null || systemctl enable sddm.service
-  systemctl is-active graphical.target >/dev/null || systemctl set-default graphical.target
+  systemctl -q is-active haveged.service || systemctl enable haveged.service
+  systemctl -q is-active pacman-init.service || systemctl enable pacman-init.service
+  systemctl -q is-active choose-mirror.service || systemctl enable choose-mirror.service
+  systemctl -q is-active vbox-check.service || systemctl enable vbox-check.service
+  systemctl -q is-active ModemManager.service || systemctl enable ModemManager.service
+  systemctl -q is-active NetworkManager.service || systemctl -f enable NetworkManager.service
+  systemctl -q is-active reflector.service || systemctl enable reflector.service
+  systemctl -q is-active sddm.service || systemctl enable sddm.service
+  systemctl -q is-active graphical.target || systemctl set-default graphical.target
 
   echo "Updating font cache..."
   mkfontscale /usr/share/fonts/TTF /usr/share/fonts/OTF /usr/share/fonts/misc > /dev/null 2>&1
