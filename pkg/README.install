@@ -41,33 +41,33 @@ post_install() {
 
   systemctl mask systemd-rfkill@.service
   systemctl mask systemd-rfkill.socket
-  systemctl list-unit-files | grep haveged.service >/dev/null && systemctl enable haveged.service
-  systemctl list-unit-files | grep pacman-init.service >/dev/null && systemctl enable pacman-init.service
-  systemctl list-unit-files | grep choose-mirror.service >/dev/null && systemctl enable choose-mirror.service
-  systemctl list-unit-files | grep vbox-check.service >/dev/null && systemctl enable vbox-check.service
-  # systemctl enable avahi-daemon.service
-  # systemctl enable systemd-networkd.service
-  # systemctl enable systemd-resolved.service
-  # systemctl enable systemd-timesyncd.service
-  systemctl list-unit-files | grep ModemManager.service >/dev/null && systemctl enable ModemManager.service
-  systemctl list-unit-files | grep NetworkManager.service >/dev/null && systemctl -f enable NetworkManager.service
-  # systemctl enable iwd.service
-  systemctl list-unit-files | grep reflector.service >/dev/null && systemctl enable reflector.service
-  # systemctl enable sshd.service
-  systemctl list-unit-files | grep sddm.service >/dev/null && systemctl enable sddm.service
+  systemctl list-unit-files | grep haveged >/dev/null && systemctl enable haveged
+  systemctl list-unit-files | grep pacman-init >/dev/null && systemctl enable pacman-init
+  systemctl list-unit-files | grep choose-mirror >/dev/null && systemctl enable choose-mirror
+  systemctl list-unit-files | grep vbox-check >/dev/null && systemctl enable vbox-check
+  # systemctl enable avahi-daemon
+  # systemctl enable systemd-networkd
+  # systemctl enable systemd-resolved
+  # systemctl enable systemd-timesyncd
+  systemctl list-unit-files | grep ModemManager >/dev/null && systemctl enable ModemManager
+  systemctl list-unit-files | grep NetworkManager >/dev/null && systemctl -f enable NetworkManager
+  # systemctl enable iwd
+  systemctl list-unit-files | grep reflector >/dev/null && systemctl enable reflector
+  # systemctl enable sshd
+  systemctl list-unit-files | grep sddm >/dev/null && systemctl enable sddm
   systemctl list-unit-files | grep graphical.target >/dev/null && systemctl set-default graphical.target
 }
 
 post_upgrade() {
   echo "Enable services..."
-  systemctl -q is-active haveged.service || systemctl enable haveged.service
-  systemctl -q is-active pacman-init.service || systemctl enable pacman-init.service
-  systemctl -q is-active choose-mirror.service || systemctl enable choose-mirror.service
-  systemctl -q is-active vbox-check.service || systemctl enable vbox-check.service
-  systemctl -q is-active ModemManager.service || systemctl enable ModemManager.service
-  systemctl -q is-active NetworkManager.service || systemctl -f enable NetworkManager.service
-  systemctl -q is-active reflector.service || systemctl enable reflector.service
-  systemctl -q is-active sddm.service || systemctl enable sddm.service
+  systemctl -q is-active haveged || systemctl enable haveged
+  systemctl -q is-active pacman-init || systemctl enable pacman-init
+  systemctl -q is-active choose-mirror || systemctl enable choose-mirror
+  systemctl -q is-active vbox-check || systemctl enable vbox-check
+  systemctl -q is-active ModemManager || systemctl enable ModemManager
+  systemctl -q is-active NetworkManager || systemctl -f enable NetworkManager
+  systemctl -q is-active reflector || systemctl enable reflector
+  systemctl -q is-active sddm || systemctl enable sddm
   systemctl -q is-active graphical.target || systemctl set-default graphical.target
 
   echo "Updating font cache..."
