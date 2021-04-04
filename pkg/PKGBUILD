@@ -16,9 +16,9 @@ install=README.install
 
 package() {
   cd ${srcdir}/${pkgname}
-  install -d $pkgdir/etc/ctlos-system
-  install -d $pkgdir/usr/local/bin
-  install -d $pkgdir/root
+  # install -d $pkgdir/etc/ctlos-system
+  # install -d $pkgdir/usr/local/bin
+  # install -d $pkgdir/root
 
-  cp -rf bin etc root "$pkgdir/etc/ctlos-system"
+  # cp -rf bin etc root "$pkgdir/etc/ctlos-system"
 }
