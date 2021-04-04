@@ -29,10 +29,10 @@ _nm() {
 }
 
 post_install() {
-  cp -rf /etc/ctlos-system/bin/. /usr/local/bin
-  cp -rf /etc/ctlos-system/etc/. /etc
-  cp -rf /etc/ctlos-system/root/. /root
-  rm -rf /etc/ctlos-system
+  # cp -rf /etc/ctlos-system/bin/. /usr/local/bin
+  # cp -rf /etc/ctlos-system/etc/. /etc
+  # cp -rf /etc/ctlos-system/root/. /root
+  # rm -rf /etc/ctlos-system
 
   _conf
   _default
