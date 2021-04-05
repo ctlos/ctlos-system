@@ -29,24 +29,24 @@ post_install() {
   # systemctl enable systemd-timesyncd
   systemctl list-unit-files | grep ModemManager >/dev/null && systemctl enable ModemManager
   systemctl list-unit-files | grep NetworkManager >/dev/null && systemctl -f enable NetworkManager
-  # systemctl enable iwd
+  systemctl list-unit-files | grep iwd >/dev/null && systemctl enable iwd
   systemctl list-unit-files | grep reflector >/dev/null && systemctl enable reflector
-  # systemctl enable sshd
+  systemctl list-unit-files | grep sshd >/dev/null && systemctl enable sshd
   systemctl list-unit-files | grep sddm >/dev/null && systemctl enable sddm
   systemctl list-unit-files | grep graphical.target >/dev/null && systemctl set-default graphical.target
 }
 
 post_upgrade() {
-  echo "Enable services..."
-  systemctl -q is-active haveged || systemctl enable haveged
-  systemctl -q is-active pacman-init || systemctl enable pacman-init
-  systemctl -q is-active choose-mirror || systemctl enable choose-mirror
-  systemctl -q is-active vbox-check || systemctl enable vbox-check
-  systemctl -q is-active ModemManager || systemctl enable ModemManager
-  systemctl -q is-active NetworkManager || systemctl -f enable NetworkManager
-  systemctl -q is-active reflector || systemctl enable reflector
-  systemctl -q is-active sddm || systemctl enable sddm
-  systemctl -q is-active graphical.target || systemctl set-default graphical.target
+  # echo "Enable services..."
+  # systemctl -q is-active haveged || systemctl enable haveged
+  # systemctl -q is-active pacman-init || systemctl enable pacman-init
+  # systemctl -q is-active choose-mirror || systemctl enable choose-mirror
+  # systemctl -q is-active vbox-check || systemctl enable vbox-check
+  # systemctl -q is-active ModemManager || systemctl enable ModemManager
+  # systemctl -q is-active NetworkManager || systemctl -f enable NetworkManager
+  # systemctl -q is-active reflector || systemctl enable reflector
+  # systemctl -q is-active sddm || systemctl enable sddm
+  # systemctl -q is-active graphical.target || systemctl set-default graphical.target
 
   # echo "Updating font cache..."
   # mkfontscale /usr/share/fonts/TTF /usr/share/fonts/OTF /usr/share/fonts/misc > /dev/null 2>&1
