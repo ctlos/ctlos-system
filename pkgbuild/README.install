@@ -33,6 +33,7 @@ post_install() {
   systemctl list-unit-files | grep reflector >/dev/null && systemctl enable reflector
   systemctl list-unit-files | grep sshd >/dev/null && systemctl enable sshd
   systemctl list-unit-files | grep sddm >/dev/null && systemctl enable sddm
+  systemctl list-unit-files | grep lightdm >/dev/null && systemctl enable lightdm
   systemctl list-unit-files | grep graphical.target >/dev/null && systemctl set-default graphical.target
 }
 
