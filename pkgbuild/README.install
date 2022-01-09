@@ -22,7 +22,7 @@ post_install() {
   systemctl list-unit-files | grep haveged >/dev/null && systemctl enable haveged
   systemctl list-unit-files | grep pacman-init >/dev/null && systemctl enable pacman-init
   systemctl list-unit-files | grep choose-mirror >/dev/null && systemctl enable choose-mirror
-  systemctl list-unit-files | grep vbox-check >/dev/null && systemctl enable vbox-check
+  systemctl list-unit-files | grep ctlos-system >/dev/null && systemctl enable ctlos-system
   # systemctl enable avahi-daemon
   # systemctl enable systemd-networkd
   # systemctl enable systemd-resolved
@@ -44,7 +44,7 @@ post_upgrade() {
   # systemctl -q is-active haveged || systemctl enable haveged
   # systemctl -q is-active pacman-init || systemctl enable pacman-init
   # systemctl -q is-active choose-mirror || systemctl enable choose-mirror
-  # systemctl -q is-active vbox-check || systemctl enable vbox-check
+  # systemctl -q is-active ctlos-system || systemctl enable ctlos-system
   # systemctl -q is-active ModemManager || systemctl enable ModemManager
   # systemctl -q is-active NetworkManager || systemctl -f enable NetworkManager
   # systemctl -q is-active reflector || systemctl enable reflector
