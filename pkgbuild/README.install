@@ -5,7 +5,7 @@ _nm() {
   echo "" >> /etc/NetworkManager/NetworkManager.conf
   echo "[main]" >> /etc/NetworkManager/NetworkManager.conf
   echo "dhcp=dhclient" >> /etc/NetworkManager/NetworkManager.conf
-  echo "dns=systemd-resolved" >> /etc/NetworkManager/NetworkManager.conf
+  # echo "dns=systemd-resolved" >> /etc/NetworkManager/NetworkManager.conf
 }
 
 post_install() {
@@ -16,7 +16,7 @@ post_install() {
 
   # _nm
 
-  echo "Enable services..."
+  echo "Enable services ctlos-system..."
   systemctl mask systemd-rfkill@.service
   systemctl mask systemd-rfkill.socket
   systemctl list-unit-files | grep haveged >/dev/null && systemctl enable haveged
@@ -26,7 +26,7 @@ post_install() {
   # systemctl enable avahi-daemon
   # systemctl enable systemd-networkd
   # systemctl enable systemd-resolved
-  # systemctl enable systemd-timesyncd
+  systemctl list-unit-files | grep systemd-timesyncd >/dev/null && systemctl enable systemd-timesyncd
   systemctl list-unit-files | grep ModemManager >/dev/null && systemctl enable ModemManager
   systemctl list-unit-files | grep NetworkManager >/dev/null && systemctl -f enable NetworkManager
   systemctl list-unit-files | grep iwd >/dev/null && systemctl enable iwd
