@@ -23,14 +23,14 @@ post_install() {
   systemctl list-unit-files | grep pacman-init >/dev/null && systemctl enable pacman-init
   systemctl list-unit-files | grep choose-mirror >/dev/null && systemctl enable choose-mirror
   systemctl list-unit-files | grep ctlos-system >/dev/null && systemctl enable ctlos-system
-  # systemctl enable systemd-networkd
-  # systemctl enable systemd-resolved
   systemctl list-unit-files | grep cups >/dev/null && systemctl enable cups
   systemctl list-unit-files | grep avahi-daemon >/dev/null && systemctl enable avahi-daemon
   systemctl list-unit-files | grep systemd-timesyncd >/dev/null && systemctl enable systemd-timesyncd
   systemctl list-unit-files | grep ModemManager >/dev/null && systemctl enable ModemManager
   systemctl list-unit-files | grep NetworkManager >/dev/null && systemctl -f enable NetworkManager
-  systemctl list-unit-files | grep iwd >/dev/null && systemctl enable iwd
+  # systemctl enable systemd-networkd
+  systemctl enable systemd-resolved
+  # systemctl list-unit-files | grep iwd >/dev/null && systemctl enable iwd
   systemctl list-unit-files | grep reflector >/dev/null && systemctl enable reflector
   systemctl list-unit-files | grep sshd >/dev/null && systemctl enable sshd
   systemctl list-unit-files | grep sddm >/dev/null && systemctl enable sddm
