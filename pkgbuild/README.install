@@ -19,6 +19,7 @@ post_install() {
   echo "Enable services ctlos-system..."
   systemctl mask systemd-rfkill@.service
   systemctl mask systemd-rfkill.socket
+  systemctl list-unit-files | grep fstrim.timer >/dev/null && systemctl enable fstrim.timer
   systemctl list-unit-files | grep haveged >/dev/null && systemctl enable haveged
   systemctl list-unit-files | grep pacman-init >/dev/null && systemctl enable pacman-init
   systemctl list-unit-files | grep choose-mirror >/dev/null && systemctl enable choose-mirror
